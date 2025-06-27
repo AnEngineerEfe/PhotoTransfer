@@ -16,7 +16,7 @@ namespace PhotoTransfer
         private List<AktarimSonucu> sonAktarimListesi = new List<AktarimSonucu>();
         private string sonKaynakKlasor = "";
         private string sonHedefKlasor = "";
-        private List<AktarimSonucu> sonGeriAlinanListesi = new List<AktarimSonucu>();
+       
 
         public Form1()
         {
@@ -224,6 +224,42 @@ namespace PhotoTransfer
             renklendirmeAktif = true;
             dataGridView1.DataSource = aktarimListesi;
 
+            try
+            {
+                string logDosyaAdi = "tasima_log_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".txt";
+                string logDosyaYolu = Path.Combine(hedefKlasor, logDosyaAdi);
+
+                using (StreamWriter sw = new StreamWriter(logDosyaYolu, false))
+                {
+                    sw.WriteLine("TAÞIMA ÝÞLEMÝ RAPORU");
+                    sw.WriteLine("=====================");
+                    sw.WriteLine("Tarih: " + DateTime.Now);
+                    sw.WriteLine("Excel Dosyasý: " + excelYolu);
+                    sw.WriteLine("Kaynak Klasör: " + kaynakKlasor);
+                    sw.WriteLine("Hedef Klasör: " + hedefKlasor);
+                    sw.WriteLine();
+
+                    foreach (var sonuc in aktarimListesi)
+                    {
+                        sw.WriteLine($"{sonuc.DosyaAdi} => {sonuc.Durum}");
+                    }
+                }
+
+                RtbLOG.AppendText($"\n[Log] Taþýma raporu oluþturuldu: {logDosyaAdi}\n");
+
+                // Log dosyasýný otomatik açýyoruz
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                {
+                    FileName = logDosyaYolu,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                RtbLOG.AppendText($"\n[Hata] Log dosyasý oluþturulamadý: {ex.Message}\n");
+            }
+
+
 
             sonAktarimListesi = new List<AktarimSonucu>(aktarimListesi);
             sonKaynakKlasor = kaynakKlasor;
@@ -253,10 +289,7 @@ namespace PhotoTransfer
                 {
                     e.CellStyle.BackColor = Color.LightCoral;
                 }
-                else if (durum == "GERÝ ALINDI")
-                {
-                    e.CellStyle.BackColor = Color.Khaki;
-                }
+                
             }
         }
 
