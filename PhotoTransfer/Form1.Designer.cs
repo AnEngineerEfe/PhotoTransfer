@@ -155,7 +155,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.BackColor = Color.Red;
+            label2.BackColor = Color.FromArgb(255, 128, 128);
             label2.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             label2.Location = new Point(642, 287);
             label2.Name = "label2";
@@ -166,7 +166,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.BackColor = Color.Lime;
+            label3.BackColor = Color.FromArgb(224, 224, 224);
             label3.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             label3.Location = new Point(163, 29);
             label3.Name = "label3";
@@ -198,7 +198,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.MistyRose;
+            BackColor = Color.WhiteSmoke;
             ClientSize = new Size(903, 565);
             Controls.Add(BtnIleriAl);
             Controls.Add(BtnGeriAl);

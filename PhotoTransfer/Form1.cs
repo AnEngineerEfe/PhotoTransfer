@@ -226,14 +226,14 @@ namespace PhotoTransfer
 
             try
             {
-                string logDosyaAdi = "tasima_log_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".txt";
+                string logDosyaAdi = "tasima_log_" + DateTime.Now.ToString("dd_MM_yyyy-HH_mm_ss") + ".txt";
                 string logDosyaYolu = Path.Combine(hedefKlasor, logDosyaAdi);
 
                 using (StreamWriter sw = new StreamWriter(logDosyaYolu, false))
                 {
                     sw.WriteLine("TAÞIMA ÝÞLEMÝ RAPORU");
                     sw.WriteLine("=====================");
-                    sw.WriteLine("Tarih: " + DateTime.Now);
+                    sw.WriteLine("Tarih: " + DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"));
                     sw.WriteLine("Excel Dosyasý: " + excelYolu);
                     sw.WriteLine("Kaynak Klasör: " + kaynakKlasor);
                     sw.WriteLine("Hedef Klasör: " + hedefKlasor);
