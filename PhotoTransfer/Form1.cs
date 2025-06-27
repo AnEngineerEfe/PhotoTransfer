@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
+
 namespace PhotoTransfer
 {
     public partial class Form1 : Form
@@ -14,7 +15,7 @@ namespace PhotoTransfer
         {
             InitializeComponent();
 
-            // Sadece "Durum" sütununu renklendirmek için
+            // Sadece "Durum" sütununu renklendiriyoruz
             dataGridView1.CellFormatting += DataGridView1_CellFormatting;
         }
 
@@ -23,7 +24,7 @@ namespace PhotoTransfer
 
         }
 
-        // Excel’den tüm hücreleri oku
+        // Excel’den tüm hücreleri okuyoruz
         private List<List<string>> ExceldenTumVeriyiOku(string excelDosyaYolu)
         {
             var tumVeri = new List<List<string>>();
@@ -70,6 +71,7 @@ namespace PhotoTransfer
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
+                ofd.InitialDirectory = "C:\\Users\\efe.erdogan\\Desktop";
                 ofd.Filter = "Excel Dosyalarý|*.xlsx;*.xls";
                 ofd.Title = "Excel Dosyasý Seçin";
                 if (ofd.ShowDialog() == DialogResult.OK)
@@ -84,6 +86,7 @@ namespace PhotoTransfer
             using (FolderBrowserDialog fbd = new FolderBrowserDialog())
             {
                 fbd.Description = "Kaynak klasörü seçin";
+                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
                     TxtKaynakPath.Text = fbd.SelectedPath;
@@ -96,6 +99,7 @@ namespace PhotoTransfer
             using (FolderBrowserDialog fbd = new FolderBrowserDialog())
             {
                 fbd.Description = "Hedef klasörü seçin";
+                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
                     TxtHedefPath.Text = fbd.SelectedPath;
@@ -161,7 +165,7 @@ namespace PhotoTransfer
                 if (kaynakDosyaYolu == null)
                 {
                     RtbLOG.AppendText($"[Uyarý] {dosyaAdi} bulunamadý veya geçersiz uzantý.\n");
-                    aktarimListesi.Add(new AktarimSonucu { DosyaAdi = dosyaAdi, Durum = "Dosya Bulunamadý" });
+                    aktarimListesi.Add(new AktarimSonucu { DosyaAdi = dosyaAdi, Durum = "DOSYA BULUNAMADI" });
                     hataSayisi++;
                     ProgressStateBar.Value++;
                     continue;
@@ -204,17 +208,37 @@ namespace PhotoTransfer
                 {
                     e.CellStyle.BackColor = Color.LightGreen;
                 }
-                else if (durum == "Dosya Bulunamadý" || durum == "Taþýma Hatasý")
+                else if (durum == "DOSYA BULUNAMADI" || durum == "Taþýma Hatasý")
                 {
                     e.CellStyle.BackColor = Color.LightCoral;
                 }
             }
         }
-    }
 
-    public class AktarimSonucu
-    {
-        public string DosyaAdi { get; set; }
-        public string Durum { get; set; }
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TxtExcelPath_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void TxtKaynakPath_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void TxtHedefPath_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        public class AktarimSonucu
+        {
+            public string DosyaAdi { get; set; }
+            public string Durum { get; set; }
+        }
     }
 }
