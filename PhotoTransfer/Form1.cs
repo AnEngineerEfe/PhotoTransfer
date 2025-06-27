@@ -11,9 +11,12 @@ namespace PhotoTransfer
 {
     public partial class Form1 : Form
     {
+        private bool renklendirmeAktif = true;
+
         private List<AktarimSonucu> sonAktarimListesi = new List<AktarimSonucu>();
         private string sonKaynakKlasor = "";
         private string sonHedefKlasor = "";
+        private List<AktarimSonucu> sonGeriAlinanListesi = new List<AktarimSonucu>();
 
         public Form1()
         {
@@ -218,6 +221,7 @@ namespace PhotoTransfer
             }
 
             MessageBox.Show($"Ýþlem tamamlandý.\nBaþarýlý: {tasinanDosyaSayisi}\nHatalý: {hataSayisi}");
+            renklendirmeAktif = true;
             dataGridView1.DataSource = aktarimListesi;
 
 
@@ -236,6 +240,8 @@ namespace PhotoTransfer
         // Sadece "Durum" hücresini renklendir
         private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            if (!renklendirmeAktif) return;
+
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Durum")
             {
                 string durum = e.Value?.ToString();
@@ -246,6 +252,10 @@ namespace PhotoTransfer
                 else if (durum == "DOSYA BULUNAMADI" || durum == "Taþýma Hatasý")
                 {
                     e.CellStyle.BackColor = Color.LightCoral;
+                }
+                else if (durum == "GERÝ ALINDI")
+                {
+                    e.CellStyle.BackColor = Color.Khaki;
                 }
             }
         }
@@ -339,6 +349,8 @@ namespace PhotoTransfer
             }
 
             // DataGridView güncelle
+            renklendirmeAktif = false;
+
             dataGridView1.DataSource = null;
             dataGridView1.DataSource = geriAlmaSonuclari;
 
@@ -346,6 +358,70 @@ namespace PhotoTransfer
 
             // sonAktarimListesi temizlenebilir veya yeni listeyle güncellenebilir
             sonAktarimListesi = geriAlmaSonuclari;
+        }
+
+        private void BtnIleriAl_Click(object sender, EventArgs e)
+        {
+            var onay = MessageBox.Show("Geri alýnan dosyalarý tekrar taþýmak istiyor musunuz?",
+        "Ýleri Al Onayý", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (onay != DialogResult.Yes) return;
+
+            if (sonAktarimListesi == null || sonAktarimListesi.Count == 0)
+            {
+                MessageBox.Show("Ýleri alýnacak iþlem bulunamadý.");
+                return;
+            }
+
+            int ileriAlinan = 0;
+            int hata = 0;
+            List<AktarimSonucu> ileriAlSonuclar = new List<AktarimSonucu>();
+
+            foreach (var item in sonAktarimListesi)
+            {
+                if (item.Durum == "GERÝ ALINDI")
+                {
+                    string kaynak = Path.Combine(sonKaynakKlasor, item.DosyaAdi);
+                    string hedef = Path.Combine(sonHedefKlasor, item.DosyaAdi);
+
+                    try
+                    {
+                        if (File.Exists(kaynak))
+                        {
+                            if (File.Exists(hedef))
+                                File.Delete(hedef);
+
+                            File.Move(kaynak, hedef);
+                            ileriAlinan++;
+                            ileriAlSonuclar.Add(new AktarimSonucu { DosyaAdi = item.DosyaAdi, Durum = "TAÞINDI" });
+                            RtbLOG.AppendText($"[Ýleri Al] {item.DosyaAdi} tekrar taþýndý.\n");
+                        }
+                        else
+                        {
+                            ileriAlSonuclar.Add(new AktarimSonucu { DosyaAdi = item.DosyaAdi, Durum = "ÝLERÝ AL HATASI (Kaynak yok)" });
+                            hata++;
+                            RtbLOG.AppendText($"[Hata] {item.DosyaAdi} ileri al hatasý: Kaynak dosya yok.\n");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ileriAlSonuclar.Add(new AktarimSonucu { DosyaAdi = item.DosyaAdi, Durum = "ÝLERÝ AL HATASI" });
+                        hata++;
+                        RtbLOG.AppendText($"[Hata] {item.DosyaAdi} ileri al hatasý: {ex.Message}\n");
+                    }
+                }
+                else
+                {
+                    ileriAlSonuclar.Add(item);
+                }
+            }
+
+            renklendirmeAktif = false;
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = ileriAlSonuclar;
+            sonAktarimListesi = ileriAlSonuclar;
+
+            MessageBox.Show($"Ýleri alma tamamlandý.\nBaþarýlý: {ileriAlinan}\nHatalý: {hata}");
         }
     }
 }

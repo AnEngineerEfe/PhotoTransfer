@@ -42,6 +42,7 @@
             label2 = new Label();
             label3 = new Label();
             BtnGeriAl = new Button();
+            BtnIleriAl = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -175,7 +176,7 @@
             // 
             // BtnGeriAl
             // 
-            BtnGeriAl.Location = new Point(163, 505);
+            BtnGeriAl.Location = new Point(163, 480);
             BtnGeriAl.Name = "BtnGeriAl";
             BtnGeriAl.Size = new Size(130, 32);
             BtnGeriAl.TabIndex = 14;
@@ -183,12 +184,23 @@
             BtnGeriAl.UseVisualStyleBackColor = true;
             BtnGeriAl.Click += BtnGeriAl_Click;
             // 
+            // BtnIleriAl
+            // 
+            BtnIleriAl.Location = new Point(163, 521);
+            BtnIleriAl.Name = "BtnIleriAl";
+            BtnIleriAl.Size = new Size(130, 32);
+            BtnIleriAl.TabIndex = 15;
+            BtnIleriAl.Text = "İleri Al";
+            BtnIleriAl.UseVisualStyleBackColor = true;
+            BtnIleriAl.Click += BtnIleriAl_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.MistyRose;
             ClientSize = new Size(903, 565);
+            Controls.Add(BtnIleriAl);
             Controls.Add(BtnGeriAl);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -227,5 +239,6 @@
         private Label label2;
         private Label label3;
         private Button BtnGeriAl;
+        private Button BtnIleriAl;
     }
 }
