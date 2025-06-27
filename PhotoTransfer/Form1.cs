@@ -11,6 +11,10 @@ namespace PhotoTransfer
 {
     public partial class Form1 : Form
     {
+        private List<AktarimSonucu> sonAktarimListesi = new List<AktarimSonucu>();
+        private string sonKaynakKlasor = "";
+        private string sonHedefKlasor = "";
+
         public Form1()
         {
             InitializeComponent();
@@ -86,7 +90,7 @@ namespace PhotoTransfer
             using (FolderBrowserDialog fbd = new FolderBrowserDialog())
             {
                 fbd.Description = "Kaynak klasörü seçin";
-                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                fbd.InitialDirectory = "C:\\Users\\efe.erdogan\\Desktop";
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
                     TxtKaynakPath.Text = fbd.SelectedPath;
@@ -99,7 +103,7 @@ namespace PhotoTransfer
             using (FolderBrowserDialog fbd = new FolderBrowserDialog())
             {
                 fbd.Description = "Hedef klasörü seçin";
-                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                fbd.InitialDirectory = "C:\\Users\\efe.erdogan\\Desktop";
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
                     TxtHedefPath.Text = fbd.SelectedPath;
@@ -120,6 +124,21 @@ namespace PhotoTransfer
                 MessageBox.Show("Lütfen tüm yollarý seçin!");
                 return;
             }
+
+            var excelDosyaAdi = Path.GetFileName(excelYolu);
+            var kaynakKlasorAdi = Path.GetFileName(kaynakKlasor.TrimEnd('\\'));
+            var hedefKlasorAdi = Path.GetFileName(hedefKlasor.TrimEnd('\\'));
+
+            string mesaj = $"Seçtiðiniz Excel Dosyasý: {excelDosyaAdi}\n" +
+                           $"Seçtiðiniz Kaynak Klasör: {kaynakKlasorAdi}\n" +
+                           $"Seçtiðiniz Hedef Klasör: {hedefKlasorAdi}\n\n" +
+                           "Taþýma iþlemini yapmak istediðinizden emin misiniz?";
+
+            var cevap = MessageBox.Show(mesaj, "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+            if (cevap != DialogResult.Yes)
+                return;
+
 
             var tumExcelVerisi = ExceldenTumVeriyiOku(excelYolu);
             if (tumExcelVerisi.Count == 0)
@@ -164,8 +183,11 @@ namespace PhotoTransfer
 
                 if (kaynakDosyaYolu == null)
                 {
-                    RtbLOG.AppendText($"[Uyarý] {dosyaAdi} bulunamadý veya geçersiz uzantý.\n");
-                    aktarimListesi.Add(new AktarimSonucu { DosyaAdi = dosyaAdi, Durum = "DOSYA BULUNAMADI" });
+                    // Uzantýlarý dosya adýnýn yanýnda gösteriyoruz
+                    string dosyaAdiUzantili = dosyaAdi + "(" + string.Join("/", uzantilar) + ")";
+
+                    RtbLOG.AppendText($"[Uyarý] {dosyaAdiUzantili} bulunamadý veya geçersiz uzantý.\n");
+                    aktarimListesi.Add(new AktarimSonucu { DosyaAdi = dosyaAdiUzantili, Durum = "DOSYA BULUNAMADI" });
                     hataSayisi++;
                     ProgressStateBar.Value++;
                     continue;
@@ -181,7 +203,8 @@ namespace PhotoTransfer
                     File.Move(kaynakDosyaYolu, hedefDosyaYolu);
 
                     RtbLOG.AppendText($"[Baþarýlý] {dosyaAdi} TAÞINDI.\n");
-                    aktarimListesi.Add(new AktarimSonucu { DosyaAdi = dosyaAdi, Durum = "TAÞINDI" });
+                    aktarimListesi.Add(new AktarimSonucu { DosyaAdi = Path.GetFileName(kaynakDosyaYolu), Durum = "TAÞINDI" });
+
                     tasinanDosyaSayisi++;
                 }
                 catch (Exception ex)
@@ -196,6 +219,18 @@ namespace PhotoTransfer
 
             MessageBox.Show($"Ýþlem tamamlandý.\nBaþarýlý: {tasinanDosyaSayisi}\nHatalý: {hataSayisi}");
             dataGridView1.DataSource = aktarimListesi;
+
+
+            sonAktarimListesi = new List<AktarimSonucu>(aktarimListesi);
+            sonKaynakKlasor = kaynakKlasor;
+            sonHedefKlasor = hedefKlasor;
+
+
+            TxtExcelPath.Text = "";
+            TxtKaynakPath.Text = "";
+            TxtHedefPath.Text = "";
+
+
         }
 
         // Sadece "Durum" hücresini renklendir
@@ -222,23 +257,95 @@ namespace PhotoTransfer
 
         private void TxtExcelPath_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void TxtKaynakPath_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void TxtHedefPath_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         public class AktarimSonucu
         {
             public string DosyaAdi { get; set; }
             public string Durum { get; set; }
+        }
+
+        private void BtnGeriAl_Click(object sender, EventArgs e)
+        {
+            var onay = MessageBox.Show("Son iþlemi geri almak istediðinizden emin misiniz?",
+                           "Geri Al Onayý",
+                           MessageBoxButtons.YesNo,
+                           MessageBoxIcon.Question);
+
+            if (onay != DialogResult.Yes)
+                return;
+
+            if (sonAktarimListesi == null || sonAktarimListesi.Count == 0)
+            {
+                MessageBox.Show("Geri alýnacak taþýma iþlemi bulunamadý.");
+                return;
+            }
+
+            int geriAlinanDosyaSayisi = 0;
+            int hataSayisi = 0;
+
+            // Geri alma sýrasýnda durumlarý güncellemek için yeni liste
+            List<AktarimSonucu> geriAlmaSonuclari = new List<AktarimSonucu>();
+
+            foreach (var sonuc in sonAktarimListesi)
+            {
+                if (sonuc.Durum == "TAÞINDI")
+                {
+                    string hedefDosyaYolu = Path.Combine(sonHedefKlasor, sonuc.DosyaAdi);
+                    string kaynakDosyaYolu = Path.Combine(sonKaynakKlasor, sonuc.DosyaAdi);
+
+                    try
+                    {
+                        if (File.Exists(hedefDosyaYolu))
+                        {
+                            if (File.Exists(kaynakDosyaYolu))
+                                File.Delete(kaynakDosyaYolu);
+
+                            File.Move(hedefDosyaYolu, kaynakDosyaYolu);
+                            geriAlinanDosyaSayisi++;
+                            geriAlmaSonuclari.Add(new AktarimSonucu { DosyaAdi = sonuc.DosyaAdi, Durum = "GERÝ ALINDI" });
+                            RtbLOG.AppendText($"[Baþarýlý] {sonuc.DosyaAdi} geri alýndý.\n");
+                        }
+                        else
+                        {
+                            geriAlmaSonuclari.Add(new AktarimSonucu { DosyaAdi = sonuc.DosyaAdi, Durum = "GERÝ ALMA HATASI (Dosya bulunamadý)" });
+                            hataSayisi++;
+                            RtbLOG.AppendText($"[Hata] {sonuc.DosyaAdi} geri alma hatasý: Hedef dosya bulunamadý.\n");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        geriAlmaSonuclari.Add(new AktarimSonucu { DosyaAdi = sonuc.DosyaAdi, Durum = "GERÝ ALMA HATASI" });
+                        hataSayisi++;
+                        RtbLOG.AppendText($"[Hata] {sonuc.DosyaAdi} geri alma hatasý: {ex.Message}\n");
+                    }
+                }
+                else
+                {
+                    // Taþýnmamýþ dosyalar için durum deðiþmez, ekleyelim
+                    geriAlmaSonuclari.Add(sonuc);
+                }
+            }
+
+            // DataGridView güncelle
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = geriAlmaSonuclari;
+
+            MessageBox.Show($"Geri alma iþlemi tamamlandý.\nBaþarýlý: {geriAlinanDosyaSayisi}\nHatalý: {hataSayisi}");
+
+            // sonAktarimListesi temizlenebilir veya yeni listeyle güncellenebilir
+            sonAktarimListesi = geriAlmaSonuclari;
         }
     }
 }

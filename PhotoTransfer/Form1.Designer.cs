@@ -41,6 +41,7 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
+            BtnGeriAl = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -76,9 +77,9 @@
             // 
             // BtnTasimaYap
             // 
-            BtnTasimaYap.Location = new Point(197, 500);
+            BtnTasimaYap.Location = new Point(319, 505);
             BtnTasimaYap.Name = "BtnTasimaYap";
-            BtnTasimaYap.Size = new Size(169, 32);
+            BtnTasimaYap.Size = new Size(130, 32);
             BtnTasimaYap.TabIndex = 3;
             BtnTasimaYap.Text = "Taşıma Yap";
             BtnTasimaYap.UseVisualStyleBackColor = true;
@@ -89,7 +90,7 @@
             TxtExcelPath.Location = new Point(163, 350);
             TxtExcelPath.Name = "TxtExcelPath";
             TxtExcelPath.ReadOnly = true;
-            TxtExcelPath.Size = new Size(234, 23);
+            TxtExcelPath.Size = new Size(286, 23);
             TxtExcelPath.TabIndex = 4;
             TxtExcelPath.TextChanged += TxtExcelPath_TextChanged;
             // 
@@ -98,7 +99,7 @@
             TxtHedefPath.Location = new Point(163, 447);
             TxtHedefPath.Name = "TxtHedefPath";
             TxtHedefPath.ReadOnly = true;
-            TxtHedefPath.Size = new Size(234, 23);
+            TxtHedefPath.Size = new Size(286, 23);
             TxtHedefPath.TabIndex = 5;
             TxtHedefPath.TextChanged += TxtHedefPath_TextChanged;
             // 
@@ -107,7 +108,7 @@
             TxtKaynakPath.Location = new Point(163, 399);
             TxtKaynakPath.Name = "TxtKaynakPath";
             TxtKaynakPath.ReadOnly = true;
-            TxtKaynakPath.Size = new Size(234, 23);
+            TxtKaynakPath.Size = new Size(286, 23);
             TxtKaynakPath.TabIndex = 6;
             TxtKaynakPath.TextChanged += TxtKaynakPath_TextChanged;
             // 
@@ -135,7 +136,7 @@
             dataGridView1.Location = new Point(12, 81);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(385, 229);
+            dataGridView1.Size = new Size(437, 229);
             dataGridView1.TabIndex = 10;
             // 
             // label1
@@ -166,11 +167,21 @@
             label3.AutoSize = true;
             label3.BackColor = Color.Lime;
             label3.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(132, 30);
+            label3.Location = new Point(163, 29);
             label3.Name = "label3";
             label3.Size = new Size(141, 23);
             label3.TabIndex = 13;
             label3.Text = "DOSYA DURUMU";
+            // 
+            // BtnGeriAl
+            // 
+            BtnGeriAl.Location = new Point(163, 505);
+            BtnGeriAl.Name = "BtnGeriAl";
+            BtnGeriAl.Size = new Size(130, 32);
+            BtnGeriAl.TabIndex = 14;
+            BtnGeriAl.Text = "Geri Al";
+            BtnGeriAl.UseVisualStyleBackColor = true;
+            BtnGeriAl.Click += BtnGeriAl_Click;
             // 
             // Form1
             // 
@@ -178,6 +189,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.MistyRose;
             ClientSize = new Size(903, 565);
+            Controls.Add(BtnGeriAl);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -214,5 +226,6 @@
         private Label label1;
         private Label label2;
         private Label label3;
+        private Button BtnGeriAl;
     }
 }
