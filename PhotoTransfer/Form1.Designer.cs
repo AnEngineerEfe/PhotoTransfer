@@ -35,129 +35,117 @@
             TxtExcelPath = new TextBox();
             TxtHedefPath = new TextBox();
             TxtKaynakPath = new TextBox();
-            ProgressStateBar = new ProgressBar();
             RtbLOG = new RichTextBox();
-            dataGridView1 = new DataGridView();
-            label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            BtnGeriAl = new Button();
-            BtnIleriAl = new Button();
+            lblOzetBilgi = new Label();
+            dataGridView1 = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // BtnExcelSec
             // 
-            BtnExcelSec.Location = new Point(12, 349);
+            BtnExcelSec.BackColor = Color.Lime;
+            BtnExcelSec.Location = new Point(12, 326);
             BtnExcelSec.Name = "BtnExcelSec";
-            BtnExcelSec.Size = new Size(125, 24);
+            BtnExcelSec.Size = new Size(145, 77);
             BtnExcelSec.TabIndex = 0;
             BtnExcelSec.Text = "Excel Dosyası Seç";
-            BtnExcelSec.UseVisualStyleBackColor = true;
+            BtnExcelSec.UseVisualStyleBackColor = false;
             BtnExcelSec.Click += BtnExcelSec_Click;
             // 
             // BtnKaynakKlasorSec
             // 
-            BtnKaynakKlasorSec.Location = new Point(12, 398);
+            BtnKaynakKlasorSec.BackColor = Color.Gold;
+            BtnKaynakKlasorSec.FlatAppearance.BorderColor = Color.Gold;
+            BtnKaynakKlasorSec.FlatAppearance.BorderSize = 0;
+            BtnKaynakKlasorSec.Location = new Point(12, 410);
             BtnKaynakKlasorSec.Name = "BtnKaynakKlasorSec";
-            BtnKaynakKlasorSec.Size = new Size(125, 24);
+            BtnKaynakKlasorSec.Size = new Size(145, 79);
             BtnKaynakKlasorSec.TabIndex = 1;
             BtnKaynakKlasorSec.Text = "Kaynak Klasör Seç";
-            BtnKaynakKlasorSec.UseVisualStyleBackColor = true;
+            BtnKaynakKlasorSec.UseVisualStyleBackColor = false;
             BtnKaynakKlasorSec.Click += BtnKaynakKlasorSec_Click;
             // 
             // BtnHedefSec
             // 
-            BtnHedefSec.Location = new Point(12, 446);
+            BtnHedefSec.BackColor = Color.FromArgb(255, 128, 0);
+            BtnHedefSec.Location = new Point(12, 495);
             BtnHedefSec.Name = "BtnHedefSec";
-            BtnHedefSec.Size = new Size(125, 23);
+            BtnHedefSec.Size = new Size(145, 80);
             BtnHedefSec.TabIndex = 2;
             BtnHedefSec.Text = "Hedef Klasör Seç";
-            BtnHedefSec.UseVisualStyleBackColor = true;
+            BtnHedefSec.UseVisualStyleBackColor = false;
             BtnHedefSec.Click += BtnHedefSec_Click;
             // 
             // BtnTasimaYap
             // 
-            BtnTasimaYap.Location = new Point(319, 505);
+            BtnTasimaYap.BackColor = Color.FromArgb(0, 192, 192);
+            BtnTasimaYap.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            BtnTasimaYap.ForeColor = SystemColors.ControlText;
+            BtnTasimaYap.Location = new Point(200, 587);
             BtnTasimaYap.Name = "BtnTasimaYap";
-            BtnTasimaYap.Size = new Size(130, 32);
+            BtnTasimaYap.Size = new Size(145, 80);
             BtnTasimaYap.TabIndex = 3;
             BtnTasimaYap.Text = "Taşıma Yap";
-            BtnTasimaYap.UseVisualStyleBackColor = true;
+            BtnTasimaYap.UseVisualStyleBackColor = false;
             BtnTasimaYap.Click += BtnTasimaYap_Click;
             // 
             // TxtExcelPath
             // 
-            TxtExcelPath.Location = new Point(163, 350);
+            TxtExcelPath.BorderStyle = BorderStyle.FixedSingle;
+            TxtExcelPath.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            TxtExcelPath.Location = new Point(163, 326);
+            TxtExcelPath.Multiline = true;
             TxtExcelPath.Name = "TxtExcelPath";
             TxtExcelPath.ReadOnly = true;
-            TxtExcelPath.Size = new Size(286, 23);
+            TxtExcelPath.Size = new Size(381, 77);
             TxtExcelPath.TabIndex = 4;
+            TxtExcelPath.TextAlign = HorizontalAlignment.Center;
             TxtExcelPath.TextChanged += TxtExcelPath_TextChanged;
             // 
             // TxtHedefPath
             // 
-            TxtHedefPath.Location = new Point(163, 447);
+            TxtHedefPath.BorderStyle = BorderStyle.FixedSingle;
+            TxtHedefPath.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            TxtHedefPath.Location = new Point(163, 495);
+            TxtHedefPath.Multiline = true;
             TxtHedefPath.Name = "TxtHedefPath";
             TxtHedefPath.ReadOnly = true;
-            TxtHedefPath.Size = new Size(286, 23);
+            TxtHedefPath.Size = new Size(381, 80);
             TxtHedefPath.TabIndex = 5;
+            TxtHedefPath.TextAlign = HorizontalAlignment.Center;
             TxtHedefPath.TextChanged += TxtHedefPath_TextChanged;
             // 
             // TxtKaynakPath
             // 
-            TxtKaynakPath.Location = new Point(163, 399);
+            TxtKaynakPath.BorderStyle = BorderStyle.FixedSingle;
+            TxtKaynakPath.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            TxtKaynakPath.Location = new Point(163, 409);
+            TxtKaynakPath.Multiline = true;
             TxtKaynakPath.Name = "TxtKaynakPath";
             TxtKaynakPath.ReadOnly = true;
-            TxtKaynakPath.Size = new Size(286, 23);
+            TxtKaynakPath.Size = new Size(381, 80);
             TxtKaynakPath.TabIndex = 6;
+            TxtKaynakPath.TextAlign = HorizontalAlignment.Center;
             TxtKaynakPath.TextChanged += TxtKaynakPath_TextChanged;
-            // 
-            // ProgressStateBar
-            // 
-            ProgressStateBar.Location = new Point(571, 156);
-            ProgressStateBar.Name = "ProgressStateBar";
-            ProgressStateBar.Size = new Size(246, 23);
-            ProgressStateBar.TabIndex = 8;
             // 
             // RtbLOG
             // 
-            RtbLOG.Location = new Point(553, 340);
+            RtbLOG.BorderStyle = BorderStyle.FixedSingle;
+            RtbLOG.Location = new Point(663, 81);
             RtbLOG.Name = "RtbLOG";
             RtbLOG.ReadOnly = true;
-            RtbLOG.Size = new Size(289, 183);
+            RtbLOG.Size = new Size(409, 556);
             RtbLOG.TabIndex = 9;
             RtbLOG.Text = "";
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.BackgroundColor = SystemColors.Highlight;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 81);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(437, 229);
-            dataGridView1.TabIndex = 10;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.FromArgb(0, 192, 192);
-            label1.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(626, 94);
-            label1.Name = "label1";
-            label1.Size = new Size(130, 23);
-            label1.TabIndex = 11;
-            label1.Text = "İŞLEM ÇUBUĞU";
-            label1.Click += label1_Click;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.FromArgb(255, 128, 128);
             label2.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(642, 287);
+            label2.Location = new Point(831, 28);
             label2.Name = "label2";
             label2.Size = new Size(105, 23);
             label2.TabIndex = 12;
@@ -168,46 +156,46 @@
             label3.AutoSize = true;
             label3.BackColor = Color.FromArgb(224, 224, 224);
             label3.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(163, 29);
+            label3.Location = new Point(214, 28);
             label3.Name = "label3";
-            label3.Size = new Size(141, 23);
+            label3.Size = new Size(114, 23);
             label3.TabIndex = 13;
-            label3.Text = "DOSYA DURUMU";
+            label3.Text = "BİLGİ EKRANI";
             // 
-            // BtnGeriAl
+            // lblOzetBilgi
             // 
-            BtnGeriAl.Location = new Point(163, 480);
-            BtnGeriAl.Name = "BtnGeriAl";
-            BtnGeriAl.Size = new Size(130, 32);
-            BtnGeriAl.TabIndex = 14;
-            BtnGeriAl.Text = "Geri Al";
-            BtnGeriAl.UseVisualStyleBackColor = true;
-            BtnGeriAl.Click += BtnGeriAl_Click;
+            lblOzetBilgi.AutoSize = true;
+            lblOzetBilgi.BackColor = Color.White;
+            lblOzetBilgi.Font = new Font("Calibri", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lblOzetBilgi.ForeColor = SystemColors.ControlText;
+            lblOzetBilgi.Location = new Point(24, 96);
+            lblOzetBilgi.Name = "lblOzetBilgi";
+            lblOzetBilgi.Size = new Size(63, 33);
+            lblOzetBilgi.TabIndex = 16;
+            lblOzetBilgi.Text = "özet";
+            lblOzetBilgi.Click += lblOzetBilgi_Click;
             // 
-            // BtnIleriAl
+            // dataGridView1
             // 
-            BtnIleriAl.Location = new Point(163, 521);
-            BtnIleriAl.Name = "BtnIleriAl";
-            BtnIleriAl.Size = new Size(130, 32);
-            BtnIleriAl.TabIndex = 15;
-            BtnIleriAl.Text = "İleri Al";
-            BtnIleriAl.UseVisualStyleBackColor = true;
-            BtnIleriAl.Click += BtnIleriAl_Click;
+            dataGridView1.BackgroundColor = SystemColors.ButtonHighlight;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(12, 81);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowTemplate.Height = 25;
+            dataGridView1.Size = new Size(532, 192);
+            dataGridView1.TabIndex = 17;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(903, 565);
-            Controls.Add(BtnIleriAl);
-            Controls.Add(BtnGeriAl);
+            ClientSize = new Size(1084, 679);
+            Controls.Add(lblOzetBilgi);
+            Controls.Add(dataGridView1);
             Controls.Add(label3);
             Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(dataGridView1);
             Controls.Add(RtbLOG);
-            Controls.Add(ProgressStateBar);
             Controls.Add(TxtKaynakPath);
             Controls.Add(TxtHedefPath);
             Controls.Add(TxtExcelPath);
@@ -215,8 +203,9 @@
             Controls.Add(BtnHedefSec);
             Controls.Add(BtnKaynakKlasorSec);
             Controls.Add(BtnExcelSec);
+            MaximizeBox = false;
             Name = "Form1";
-            Text = "Fotoğraf Transfer Uygulaması";
+            Text = "KMO Fotoğraf Transfer Uygulaması";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
@@ -232,13 +221,10 @@
         private TextBox TxtExcelPath;
         private TextBox TxtHedefPath;
         private TextBox TxtKaynakPath;
-        private ProgressBar ProgressStateBar;
         private RichTextBox RtbLOG;
-        private DataGridView dataGridView1;
-        private Label label1;
         private Label label2;
         private Label label3;
-        private Button BtnGeriAl;
-        private Button BtnIleriAl;
+        private Label lblOzetBilgi;
+        private DataGridView dataGridView1;
     }
 }
