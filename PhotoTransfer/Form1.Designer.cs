@@ -94,7 +94,7 @@
             // TxtExcelPath
             // 
             TxtExcelPath.BorderStyle = BorderStyle.FixedSingle;
-            TxtExcelPath.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            TxtExcelPath.Font = new Font("Calibri", 18F, FontStyle.Regular, GraphicsUnit.Point);
             TxtExcelPath.Location = new Point(163, 326);
             TxtExcelPath.Multiline = true;
             TxtExcelPath.Name = "TxtExcelPath";
@@ -107,7 +107,7 @@
             // TxtHedefPath
             // 
             TxtHedefPath.BorderStyle = BorderStyle.FixedSingle;
-            TxtHedefPath.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            TxtHedefPath.Font = new Font("Calibri", 18F, FontStyle.Regular, GraphicsUnit.Point);
             TxtHedefPath.Location = new Point(163, 495);
             TxtHedefPath.Multiline = true;
             TxtHedefPath.Name = "TxtHedefPath";
@@ -120,7 +120,7 @@
             // TxtKaynakPath
             // 
             TxtKaynakPath.BorderStyle = BorderStyle.FixedSingle;
-            TxtKaynakPath.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            TxtKaynakPath.Font = new Font("Calibri", 18F, FontStyle.Regular, GraphicsUnit.Point);
             TxtKaynakPath.Location = new Point(163, 409);
             TxtKaynakPath.Multiline = true;
             TxtKaynakPath.Name = "TxtKaynakPath";
@@ -133,6 +133,7 @@
             // RtbLOG
             // 
             RtbLOG.BorderStyle = BorderStyle.FixedSingle;
+            RtbLOG.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point);
             RtbLOG.Location = new Point(663, 81);
             RtbLOG.Name = "RtbLOG";
             RtbLOG.ReadOnly = true;

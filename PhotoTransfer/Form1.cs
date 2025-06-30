@@ -117,6 +117,10 @@ namespace PhotoTransfer
 
         private async void BtnTasimaYap_Click(object sender, EventArgs e)
         {
+            HashSet<string> tasinanDosyalar = new HashSet<string>();
+
+            RtbLOG.Clear();
+
             string excelYolu = TxtExcelPath.Text;
             string kaynakKlasor = TxtKaynakPath.Text;
             string hedefKlasor = TxtHedefPath.Text;
@@ -152,9 +156,15 @@ namespace PhotoTransfer
             List<AktarimSonucu> aktarimListesi = null;
             int tasinanDosyaSayisi = 0;
             int hataSayisi = 0;
+            
+            
+
+           
+
 
             await Task.Run(() =>
             {
+                
                 var tumExcelVerisi = ExceldenTumVeriyiOku(excelYolu);
                 if (tumExcelVerisi.Count == 0)
                     return;
@@ -165,7 +175,10 @@ namespace PhotoTransfer
                     foreach (var hucre in satir)
                     {
                         if (!string.IsNullOrWhiteSpace(hucre))
+                        {
                             dosyaAdlari.Add(hucre);
+                            
+                        }
                     }
                 }
 
@@ -175,7 +188,7 @@ namespace PhotoTransfer
 
                 aktarimListesi = new List<AktarimSonucu>();
                 int toplamDosyaSayisi = dosyaAdlari.Count;
-                int sayac = 0;
+                int sayac = 0;              
 
                 foreach (var dosyaAdi in dosyaAdlari)
                 {
@@ -194,7 +207,21 @@ namespace PhotoTransfer
                     if (kaynakDosyaYolu == null)
                     {
                         string dosyaAdiUzantili = dosyaAdi + "(" + string.Join("/", uzantilar) + ")";
-                        aktarimListesi.Add(new AktarimSonucu { DosyaAdi = dosyaAdiUzantili, Durum = "DOSYA BULUNAMADI" });
+
+                        if (tasinanDosyalar.Contains(dosyaAdi))
+                        {
+                            
+                            // Daha önce taþýnmýþ, tekrar gelmiþ
+                            aktarimListesi.Add(new AktarimSonucu { DosyaAdi = dosyaAdiUzantili, Durum = "MÜKERRER KAYIT" });
+                        }
+                        else
+                        {
+                            // Kaynakta hiç yok, daha önce taþýnmamýþ
+                            aktarimListesi.Add(new AktarimSonucu { DosyaAdi = dosyaAdiUzantili, Durum = "DOSYA BULUNAMADI" });
+                            
+                        }
+                        
+
                         hataSayisi++;
                         sayac++;
                         int progressValue = (int)((sayac / (double)toplamDosyaSayisi) * 100);
@@ -208,7 +235,9 @@ namespace PhotoTransfer
 
                         if (File.Exists(hedefDosyaYolu))
                         {
-                            aktarimListesi.Add(new AktarimSonucu { DosyaAdi = Path.GetFileName(kaynakDosyaYolu), Durum = "ZATEN VAR (KOPYALANMADI)" });
+                            aktarimListesi.Add(new AktarimSonucu { DosyaAdi = Path.GetFileName(kaynakDosyaYolu), Durum = "DOSYA ZATEN MEVCUT" });
+
+                            
                             hataSayisi++;
                             sayac++;
                             int progressValue = (int)((sayac / (double)toplamDosyaSayisi) * 100);
@@ -218,6 +247,8 @@ namespace PhotoTransfer
 
 
                         File.Move(kaynakDosyaYolu, hedefDosyaYolu);
+                        tasinanDosyalar.Add(dosyaAdi);
+
 
                         aktarimListesi.Add(new AktarimSonucu { DosyaAdi = Path.GetFileName(kaynakDosyaYolu), Durum = "TAÞINDI" });
                         tasinanDosyaSayisi++;
@@ -267,7 +298,12 @@ namespace PhotoTransfer
                     {
                         if (sonuc.Durum != "TAÞINDI")
                         {
-                            sw.WriteLine($"{sonuc.DosyaAdi} => {sonuc.Durum}");
+                            string logSatiri = $"{sonuc.DosyaAdi} => {sonuc.Durum}";
+                            sw.WriteLine(logSatiri);
+                            this.Invoke((MethodInvoker)(() =>
+                            {
+                                RtbLOG.AppendText(logSatiri + "\n");
+                            }));
                         }
                     }
                 }
@@ -294,7 +330,8 @@ namespace PhotoTransfer
             TxtHedefPath.Text = "";
 
             lblOzetBilgi.Text = $"Dosya Sayýsý: {tasinanDosyaSayisi + hataSayisi} " +
-                    $"\n{tasinanDosyaSayisi} dosya taþýndý. " +
+                    $"\n{tasinanDosyaSayisi} dosya taþýndý." +
+                 
                     $"\n{hataSayisi} dosya taþýnamadý.";
 
             MessageBox.Show($"Ýþlem tamamlandý.\nBaþarýlý: {tasinanDosyaSayisi}\nHatalý: {hataSayisi}");
