@@ -46,6 +46,7 @@
             // BtnExcelSec
             // 
             BtnExcelSec.BackColor = Color.Lime;
+            BtnExcelSec.Font = new Font("Calibri", 12F, FontStyle.Bold, GraphicsUnit.Point);
             BtnExcelSec.Location = new Point(12, 326);
             BtnExcelSec.Name = "BtnExcelSec";
             BtnExcelSec.Size = new Size(145, 77);
@@ -59,6 +60,7 @@
             BtnKaynakKlasorSec.BackColor = Color.Gold;
             BtnKaynakKlasorSec.FlatAppearance.BorderColor = Color.Gold;
             BtnKaynakKlasorSec.FlatAppearance.BorderSize = 0;
+            BtnKaynakKlasorSec.Font = new Font("Calibri", 12F, FontStyle.Bold, GraphicsUnit.Point);
             BtnKaynakKlasorSec.Location = new Point(12, 410);
             BtnKaynakKlasorSec.Name = "BtnKaynakKlasorSec";
             BtnKaynakKlasorSec.Size = new Size(145, 79);
@@ -70,6 +72,7 @@
             // BtnHedefSec
             // 
             BtnHedefSec.BackColor = Color.FromArgb(255, 128, 0);
+            BtnHedefSec.Font = new Font("Calibri", 12F, FontStyle.Bold, GraphicsUnit.Point);
             BtnHedefSec.Location = new Point(12, 495);
             BtnHedefSec.Name = "BtnHedefSec";
             BtnHedefSec.Size = new Size(145, 80);
@@ -81,9 +84,9 @@
             // BtnTasimaYap
             // 
             BtnTasimaYap.BackColor = Color.FromArgb(0, 192, 192);
-            BtnTasimaYap.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            BtnTasimaYap.Font = new Font("Calibri", 12F, FontStyle.Bold, GraphicsUnit.Point);
             BtnTasimaYap.ForeColor = SystemColors.ControlText;
-            BtnTasimaYap.Location = new Point(200, 587);
+            BtnTasimaYap.Location = new Point(278, 581);
             BtnTasimaYap.Name = "BtnTasimaYap";
             BtnTasimaYap.Size = new Size(145, 80);
             BtnTasimaYap.TabIndex = 3;
@@ -145,21 +148,23 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.FromArgb(255, 128, 128);
-            label2.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Font = new Font("Calibri", 14F, FontStyle.Bold, GraphicsUnit.Point);
             label2.Location = new Point(814, 28);
             label2.Name = "label2";
-            label2.Size = new Size(105, 23);
+            label2.Padding = new Padding(5);
+            label2.Size = new Size(117, 33);
             label2.TabIndex = 12;
             label2.Text = "LOG EKRANI";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.BackColor = Color.FromArgb(224, 224, 224);
-            label3.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            label3.BackColor = Color.FromArgb(255, 128, 128);
+            label3.Font = new Font("Calibri", 14F, FontStyle.Bold, GraphicsUnit.Point);
             label3.Location = new Point(214, 28);
             label3.Name = "label3";
-            label3.Size = new Size(114, 23);
+            label3.Padding = new Padding(5);
+            label3.Size = new Size(125, 33);
             label3.TabIndex = 13;
             label3.Text = "BİLGİ EKRANI";
             // 
@@ -171,9 +176,8 @@
             lblOzetBilgi.ForeColor = SystemColors.ControlText;
             lblOzetBilgi.Location = new Point(24, 96);
             lblOzetBilgi.Name = "lblOzetBilgi";
-            lblOzetBilgi.Size = new Size(63, 33);
+            lblOzetBilgi.Size = new Size(0, 33);
             lblOzetBilgi.TabIndex = 16;
-            lblOzetBilgi.Text = "özet";
             lblOzetBilgi.Click += lblOzetBilgi_Click;
             // 
             // dataGridView1

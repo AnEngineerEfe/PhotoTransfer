@@ -12,19 +12,11 @@ namespace PhotoTransfer
 {
     public partial class Form1 : Form
     {
-        // private bool renklendirmeAktif = true;
+        string masaustuYolu = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-        // private List<AktarimSonucu> sonAktarimListesi = new List<AktarimSonucu>();
-        //  private string sonKaynakKlasor = "";
-        // private string sonHedefKlasor = "";
-
-        
         public Form1()
         {
             InitializeComponent();
-
-            // Sadece "Durum" sütununu renklendiriyoruz
-            // dataGridView1.CellFormatting += DataGridView1_CellFormatting;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -59,9 +51,10 @@ namespace PhotoTransfer
                     foreach (var row in range.Rows())
                     {
                         var satirVeri = new List<string>();
-                        var ilkHucre = row.Cell(1).GetString().Trim(); // Sadece 1. sütun (A)
-                        satirVeri.Add(ilkHucre);
-                        tumVeri.Add(satirVeri);
+                        var Hucre = row.Cell(1).GetString().Trim(); // Sadece 1. sütun (A)
+                        //todo : transactionlar tek liste içinde tutulacak altta foreach döngüsü teke düþürülecek
+                        satirVeri.Add(Hucre);
+                        tumVeri.Add(satirVeri);   
                     }
                 }
             }
@@ -73,7 +66,6 @@ namespace PhotoTransfer
             return tumVeri;
         }
 
-        string masaustuYolu = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
         private void BtnExcelSec_Click(object sender, EventArgs e)
         {
@@ -156,11 +148,6 @@ namespace PhotoTransfer
             List<AktarimSonucu> aktarimListesi = null;
             int tasinanDosyaSayisi = 0;
             int hataSayisi = 0;
-            
-            
-
-           
-
 
             await Task.Run(() =>
             {
@@ -248,8 +235,6 @@ namespace PhotoTransfer
                         File.Move(kaynakDosyaYolu, hedefDosyaYolu);
                         tasinanDosyalar.Add(Path.GetFileName(kaynakDosyaYolu));
 
-
-
                         aktarimListesi.Add(new AktarimSonucu { DosyaAdi = Path.GetFileName(kaynakDosyaYolu), Durum = "TAÞINDI" });
                         tasinanDosyaSayisi++;
                     }
@@ -274,14 +259,10 @@ namespace PhotoTransfer
                 return;
             }
 
-            // Sonuçlarý DataGridView'a aktar
-            // renklendirmeAktif = true;
-            // dataGridView1.DataSource = aktarimListesi;
-
             // Log dosyasýný oluþtur - sadece taþýnamayanlarý yaz
             try
             {
-                string logDosyaAdi = "tasima_log_" + DateTime.Now.ToString("dd_MM_yyyy-HH_mm_ss") + ".txt";
+                string logDosyaAdi = "Hatalý Kayýtlar  " + DateTime.Now.ToString("dd-MMMM-yyyy HH.mm.ss") + ".txt";
                 string logDosyaYolu = Path.Combine(hedefKlasor, logDosyaAdi);
 
                 using (StreamWriter sw = new StreamWriter(logDosyaYolu, false))
@@ -310,20 +291,16 @@ namespace PhotoTransfer
 
                 RtbLOG.AppendText($"\n[Log] Taþýma raporu oluþturuldu: {Path.GetFileName(logDosyaYolu)}\n");
 
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                /*System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
                 {
                     FileName = logDosyaYolu,
                     UseShellExecute = true
-                });
+                });*/
             }
             catch (Exception ex)
             {
                 RtbLOG.AppendText($"\n[Hata] Log dosyasý oluþturulamadý: {ex.Message}\n");
             }
-
-            // sonAktarimListesi = new List<AktarimSonucu>(aktarimListesi);
-            //  sonKaynakKlasor = kaynakKlasor;
-            //   sonHedefKlasor = hedefKlasor;
 
             TxtExcelPath.Text = "";
             TxtKaynakPath.Text = "";
@@ -331,31 +308,11 @@ namespace PhotoTransfer
 
             lblOzetBilgi.Text = $"Dosya Sayýsý: {tasinanDosyaSayisi + hataSayisi} " +
                     $"\n{tasinanDosyaSayisi} dosya taþýndý." +
-                 
                     $"\n{hataSayisi} dosya taþýnamadý.";
 
-            MessageBox.Show($"Ýþlem tamamlandý.\nBaþarýlý: {tasinanDosyaSayisi}\nHatalý: {hataSayisi}");
+            //MessageBox.Show($"Ýþlem tamamlandý.\nBaþarýlý: {tasinanDosyaSayisi}\nHatalý: {hataSayisi}");
         }
 
-        // Sadece "Durum" hücresini renklendir
-        /* private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-         {
-             if (!renklendirmeAktif) return;
-
-             if (dataGridView1.Columns[e.ColumnIndex].Name == "Durum")
-             {
-                 string durum = e.Value?.ToString();
-                 if (durum == "TAÞINDI")
-                 {
-                     e.CellStyle.BackColor = Color.LightGreen;
-                 }
-                 else if (durum == "DOSYA BULUNAMADI" || durum == "Taþýma Hatasý")
-                 {
-                     e.CellStyle.BackColor = Color.LightCoral;
-                 }
-
-             }
-         } */
 
         private void label1_Click(object sender, EventArgs e)
         {
