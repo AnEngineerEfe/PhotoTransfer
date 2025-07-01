@@ -208,19 +208,18 @@ namespace PhotoTransfer
                     {
                         string dosyaAdiUzantili = dosyaAdi + "(" + string.Join("/", uzantilar) + ")";
 
-                        if (tasinanDosyalar.Contains(dosyaAdi))
+                        var ayniIsimliDosya = tasinanDosyalar.FirstOrDefault(d => Path.GetFileNameWithoutExtension(d).Equals(dosyaAdi, StringComparison.OrdinalIgnoreCase));
+
+                        if (!string.IsNullOrEmpty(ayniIsimliDosya))
                         {
-                            
-                            // Daha önce taþýnmýþ, tekrar gelmiþ
-                            aktarimListesi.Add(new AktarimSonucu { DosyaAdi = dosyaAdiUzantili, Durum = "MÜKERRER KAYIT" });
+                            aktarimListesi.Add(new AktarimSonucu { DosyaAdi = ayniIsimliDosya, Durum = "MÜKERRER KAYIT" });
                         }
                         else
                         {
-                            // Kaynakta hiç yok, daha önce taþýnmamýþ
                             aktarimListesi.Add(new AktarimSonucu { DosyaAdi = dosyaAdiUzantili, Durum = "DOSYA BULUNAMADI" });
-                            
                         }
-                        
+
+
 
                         hataSayisi++;
                         sayac++;
@@ -247,7 +246,8 @@ namespace PhotoTransfer
 
 
                         File.Move(kaynakDosyaYolu, hedefDosyaYolu);
-                        tasinanDosyalar.Add(dosyaAdi);
+                        tasinanDosyalar.Add(Path.GetFileName(kaynakDosyaYolu));
+
 
 
                         aktarimListesi.Add(new AktarimSonucu { DosyaAdi = Path.GetFileName(kaynakDosyaYolu), Durum = "TAÞINDI" });

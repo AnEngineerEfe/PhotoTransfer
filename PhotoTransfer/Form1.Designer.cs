@@ -134,10 +134,10 @@
             // 
             RtbLOG.BorderStyle = BorderStyle.FixedSingle;
             RtbLOG.Font = new Font("Calibri", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            RtbLOG.Location = new Point(663, 81);
+            RtbLOG.Location = new Point(648, 81);
             RtbLOG.Name = "RtbLOG";
             RtbLOG.ReadOnly = true;
-            RtbLOG.Size = new Size(409, 556);
+            RtbLOG.Size = new Size(424, 556);
             RtbLOG.TabIndex = 9;
             RtbLOG.Text = "";
             // 
@@ -146,7 +146,7 @@
             label2.AutoSize = true;
             label2.BackColor = Color.FromArgb(255, 128, 128);
             label2.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(831, 28);
+            label2.Location = new Point(814, 28);
             label2.Name = "label2";
             label2.Size = new Size(105, 23);
             label2.TabIndex = 12;
