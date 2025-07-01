@@ -25,9 +25,10 @@ namespace PhotoTransfer
         }
 
         // Excel’den tüm hücreleri okuyoruz
-        private List<List<string>> ExceldenTumVeriyiOku(string excelDosyaYolu)
+
+        private List<string> ExceldenTumVeriyiOku(string excelDosyaYolu)
         {
-            var tumVeri = new List<List<string>>();
+            var tumVeri = new List<string>();
 
             if (!File.Exists(excelDosyaYolu))
             {
@@ -50,11 +51,9 @@ namespace PhotoTransfer
 
                     foreach (var row in range.Rows())
                     {
-                        var satirVeri = new List<string>();
-                        var Hucre = row.Cell(1).GetString().Trim(); // Sadece 1. sütun (A)
-                        //todo : transactionlar tek liste içinde tutulacak altta foreach döngüsü teke düþürülecek
-                        satirVeri.Add(Hucre);
-                        tumVeri.Add(satirVeri);   
+                        var hucre = row.Cell(1).GetString().Trim();
+                        if (!string.IsNullOrWhiteSpace(hucre))
+                            tumVeri.Add(hucre);
                     }
                 }
             }
@@ -65,6 +64,7 @@ namespace PhotoTransfer
 
             return tumVeri;
         }
+
 
 
         private void BtnExcelSec_Click(object sender, EventArgs e)
@@ -151,27 +151,14 @@ namespace PhotoTransfer
 
             await Task.Run(() =>
             {
-                
-                var tumExcelVerisi = ExceldenTumVeriyiOku(excelYolu);
-                if (tumExcelVerisi.Count == 0)
-                    return;
 
-                List<string> dosyaAdlari = new List<string>();
-                foreach (var satir in tumExcelVerisi)
-                {
-                    foreach (var hucre in satir)
-                    {
-                        if (!string.IsNullOrWhiteSpace(hucre))
-                        {
-                            dosyaAdlari.Add(hucre);
-                            
-                        }
-                    }
-                }
+                var dosyaAdlari = ExceldenTumVeriyiOku(excelYolu);
+
 
                 tasinanDosyaSayisi = 0;
                 hataSayisi = 0;
-                string[] uzantilar = { ".jpg", ".jpeg", ".png" };
+                string[] uzantilar = { ".jpg", ".jpeg", ".png" ,".mov",".mp4"};
+
 
                 aktarimListesi = new List<AktarimSonucu>();
                 int toplamDosyaSayisi = dosyaAdlari.Count;
@@ -183,13 +170,24 @@ namespace PhotoTransfer
 
                     foreach (var uzanti in uzantilar)
                     {
-                        string denemeYolu = Path.Combine(kaynakKlasor, dosyaAdi + uzanti);
-                        if (File.Exists(denemeYolu))
+                       var tumDosyalar = Directory.GetFiles(kaynakKlasor, "*" + uzanti, SearchOption.TopDirectoryOnly);
+
+                        foreach (var dosya in tumDosyalar)
                         {
-                            kaynakDosyaYolu = denemeYolu;
-                            break;
+                            string dosyaAdiKaynak = Path.GetFileNameWithoutExtension(dosya);
+                            string dosyaAdiKisa = dosyaAdiKaynak.Length > 32 ? dosyaAdiKaynak.Substring(0, 32) : dosyaAdiKaynak;
+
+                            if (dosyaAdi == dosyaAdiKisa)
+                            {
+                                kaynakDosyaYolu = dosya;
+                                break;
+                            }
                         }
+
+                        if (kaynakDosyaYolu != null)
+                            break;   
                     }
+
 
                     if (kaynakDosyaYolu == null)
                     {
@@ -199,7 +197,7 @@ namespace PhotoTransfer
 
                         if (!string.IsNullOrEmpty(ayniIsimliDosya))
                         {
-                            aktarimListesi.Add(new AktarimSonucu { DosyaAdi = ayniIsimliDosya, Durum = "MÜKERRER KAYIT" });
+                            aktarimListesi.Add(new AktarimSonucu { DosyaAdi = ayniIsimliDosya, Durum = "MÜKERRER DOSYA" });
                         }
                         else
                         {
@@ -312,6 +310,9 @@ namespace PhotoTransfer
 
             //MessageBox.Show($"Ýþlem tamamlandý.\nBaþarýlý: {tasinanDosyaSayisi}\nHatalý: {hataSayisi}");
         }
+
+        
+
 
 
         private void label1_Click(object sender, EventArgs e)
